@@ -126,13 +126,34 @@
       color: #70e4ff;
       margin-bottom: 15px;
     }
-    footer {
+    .movistar {
       margin: 30px 20px;
       text-align: center;
       font-size: 0.9rem;
       color: #aaa;
     }
     @media screen and (max-width: 480px) {
+      html, body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+      .container {
+        margin: 20px auto;
+        padding: 25px 15px;
+      }
+      .modal {
+        padding: 40px 15px;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-content {
+        margin: 0 auto;
+        width: 90%;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
       html, body {
         width: 100%;
         overflow-x: hidden;
@@ -178,7 +199,12 @@
       <input type="tel" id="telefono" placeholder="Tu número de WhatsApp">
       <textarea id="mensaje" placeholder="Deja tu mensaje cumpleañero para que Dieguis lo pueda ver"></textarea>
       <button type="submit">Enviar</button>
-    </form>
+    </form><br>
+  <spam class="movistar">
+     Tus datos no serán vendidos a Movistar. 😄
+  </spam>
+
+
   </div>
 
   <div class="modal" id="thankYouModal">
@@ -238,8 +264,6 @@
       });
     });
   </script>
-  <footer>
-    Tus datos no serán vendidos a Movistar. 😄
-  </footer>
+
 </body>
 </html>
