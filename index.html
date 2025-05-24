@@ -133,6 +133,22 @@
       color: #aaa;
     }
     @media screen and (max-width: 480px) {
+      html, body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+      .modal {
+        padding: 40px 15px;
+        align-items: center;
+        justify-content: center;
+      }
+      body {
+        padding: 0 15px;
+      }
+      .modal {
+        padding: 40px 15px;
+        align-items: flex-start;
+      }
       .modal-content {
         margin: 0 auto;
         width: 90%;
@@ -160,7 +176,7 @@
         <option value="No">No podré 😢</option>
       </select>
       <input type="tel" id="telefono" placeholder="Tu número de WhatsApp">
-      <textarea id="mensaje" placeholder="Deja tu mensaje cumpleañero para que Dieguis lo pueda ver"></textarea>
+      <textarea id="mensaje" placeholder="Deja tu mensaje para que Dieguis lo pueda ver"></textarea>
       <button type="submit">Enviar</button>
     </form>
   </div>
