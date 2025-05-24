@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¡Estás Invitado!</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: linear-gradient(145deg, #0f111a, #1f2235);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .emoji-balloon {
+      position: absolute;
+      font-size: 2rem;
+      animation: float 6s infinite ease-in-out;
+      opacity: 0.8;
+    }
+    @keyframes float {
+      0% { transform: translateY(-100px); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+    .container {
+      background: #2b2f4a;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      max-width: 400px;
+      width: 90%;
+      margin: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #70e4ff;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 20px;
+    }
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #1f2235;
+      color: #fff;
+    }
+    button {
+      background: #70e4ff;
+      color: #1f2235;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #56cde0;
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #1f2235;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(112, 228, 255, 0.5);
+      color: #fff;
+    }
+    .modal h2 {
+      color: #70e4ff;
+      margin-bottom: 15px;
+    }
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .modal-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background" id="balloonContainer"></div>
+
+  <div class="container">
+    <h1>¡Estás Invitado a Mi Cumpleaños! 🎉</h1>
+    <p>Será un día increíble y me encantaría que estés ahí. Por favor confirma tu asistencia.</p>
+    <form id="rsvpForm">
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+      <select id="asistencia" required>
+        <option value="">¿Asistirás?</option>
+        <option value="Sí">¡Sí, ahí estaré! 🎈</option>
+        <option value="No">No podré 😢</option>
+      </select>
+      <input type="tel" id="telefono" placeholder="Tu número de WhatsApp">
+      <textarea id="mensaje" placeholder="¿Tienes algún comentario o pregunta?"></textarea>
+      <button type="submit">Confirmar Asistencia</button>
+    </form>
+  </div>
+
+  <div class="modal" id="thankYouModal">
+    <div class="modal-content">
+      <h2 id="modalTitle">🎉 ¡Gracias por confirmar!</h2>
+      <p id="resumen"></p>
+    </div>
+  </div>
+
+  <script>
+    const balloonContainer = document.getElementById('balloonContainer');
+    const emojis = ['🎈','🎉','🥳','🎊'];
+    for (let i = 0; i < 30; i++) {
+      let emoji = document.createElement('div');
+      emoji.classList.add('emoji-balloon');
+      emoji.style.left = `${Math.random() * 100}vw`;
+      emoji.style.animationDuration = `${4 + Math.random() * 4}s`;
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      balloonContainer.appendChild(emoji);
+    }
+
+    const form = document.getElementById('rsvpForm');
+    const modal = document.getElementById('thankYouModal');
+    const resumen = document.getElementById('resumen');
+    const modalTitle = document.getElementById('modalTitle');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value;
+      const asistencia = document.getElementById('asistencia').value;
+      const telefono = document.getElementById('telefono').value;
+      const mensajeInvitado = document.getElementById('mensaje').value;
+
+      if (asistencia === 'No') {
+        resumen.innerHTML = `PIPIPIII... Gracias igual por avisar.`;
+        modalTitle.textContent = '😔 PIPIPIII...';
+      } else {
+        resumen.innerHTML = `Gracias <strong>${nombre}</strong> por confirmar tu asistencia.`;
+        modalTitle.textContent = '🎉 ¡Gracias por confirmar!';
+      }
+
+      modal.style.display = 'flex';
+
+      fetch('https://script.google.com/macros/s/AKfycbzNDzYx-6w-nL4LNku-_1gIvoE-aA2oxE5boFJsQ_61E06AhkSLQRqahS3_rHyWE6E0/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre,
+          asistencia,
+          telefono,
+          mensaje: mensajeInvitado
+        })
+      });
+    });
+  </script>
+</body>
+</html>
+ 
