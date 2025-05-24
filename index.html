@@ -126,7 +126,7 @@
       color: #70e4ff;
       margin-bottom: 15px;
     }
-    .movistar {
+    footer {
       margin: 30px 20px;
       text-align: center;
       font-size: 0.9rem;
@@ -187,7 +187,7 @@
 <body>
   <div class="background" id="balloonContainer"></div>
   <div class="container">
-    <h1>¡Estás Invitado al cumple de Dieguis! 🤓 🎉</h1>
+    <h1>¡Estás Invitado al cumple de Dieguis! 🎉</h1>
     <p>Será un día increíble y me encantaría que estés ahí. Por favor confirma tu asistencia.</p>
     <form id="rsvpForm">
       <input type="text" id="nombre" placeholder="Tu nombre" required>
@@ -199,20 +199,16 @@
       <input type="tel" id="telefono" placeholder="Tu número de WhatsApp">
       <textarea id="mensaje" placeholder="Deja tu mensaje cumpleañero para que Dieguis lo pueda ver"></textarea>
       <button type="submit">Enviar</button>
-    </form><br>
-  <spam class="movistar">
-     Tus datos no serán vendidos a Movistar. 😄
-  </spam>
-
-
+    </form>
   </div>
 
   <div class="modal" id="thankYouModal">
-    <div class="modal-content">
-      <h2 id="modalTitle">🎉 ¡Gracias por confirmar!</h2>
-      <p id="resumen"></p>
-    </div>
+  <div class="modal-content">
+    <span id="closeModal" style="position:absolute;top:10px;right:15px;font-size:1.5rem;cursor:pointer;color:#fff;">&times;</span>
+    <h2 id="modalTitle">🎉 ¡Gracias por confirmar!</h2>
+    <p id="resumen"></p>
   </div>
+</div>
 
   <script>
     const balloonContainer = document.getElementById('balloonContainer');
@@ -249,6 +245,11 @@
 
       modal.style.display = 'flex';
 
+      const closeBtn = document.getElementById('closeModal');
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
       fetch('https://script.google.com/macros/s/AKfycbzNDzYx-6w-nL4LNku-_1gIvoE-aA2oxE5boFJsQ_61E06AhkSLQRqahS3_rHyWE6E0/exec', {
         method: 'POST',
         mode: 'no-cors',
@@ -264,6 +265,8 @@
       });
     });
   </script>
-
+  <footer>
+    Tus datos no serán vendidos a Movistar. 😄
+  </footer>
 </body>
 </html>
