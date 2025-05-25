@@ -60,7 +60,6 @@
     
     /* Contenedor principal */
     .container {
-
       padding: 2.5rem;
       border-radius: 20px;
       box-shadow: var(--shadow);
@@ -72,7 +71,7 @@
       margin: 20px 0;
       border: 1px solid rgba(112, 228, 255, 0.1);
       transition: var(--transition);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(2px);
     }
     
     .container:hover {
@@ -331,7 +330,7 @@
   <div class="background" id="balloonContainer"></div>
   <div class="container animate__animated animate__fadeInUp">
     <h1>¡Estás Invitado al Cumple de Dieguis! 🤓 🎉</h1>
-    <p>Será un día increíble lleno de diversión, comida y buenos momentos. ¡Me encantaría que estés ahí para celebrarlo conmigo!</p>
+    <p>Será un día increíble lleno de diversión, comida y buenos momentos. ¡Me encantaría que estés ahí para celebrarlo é!</p>
     
     <form id="rsvpForm">
       <div class="form-group">
@@ -359,7 +358,7 @@
       </div>
     
       <button type="submit" id="submitBtn">
-        <span>Confirmar Asistencia</span>
+        <span>Enviar</span>
         <div class="loader"></div>
       </button>
     </form>
@@ -442,7 +441,7 @@
             resumen.innerHTML = `Gracias <strong>${nombre}</strong> por responder. ¡Esperamos que puedas venir!`;
             modalTitle.textContent = '🤔 ¡Perfecto!';
           } else {
-            resumen.innerHTML = `¡Genial <strong>${nombre}</strong>! Tu asistencia ha sido confirmada. ¡Prepárate para divertirte!`;
+            resumen.innerHTML = `¡Genial <strong>${nombre}</strong>! Tu asistencia ha sido confirmada.`;
             modalTitle.textContent = '🎉 ¡Confirmado!';
             createConfetti();
           }
