@@ -14,7 +14,6 @@
       --bg-light: #2b2f4a;
       --text-light: #f0f0f0;
       --text-muted: #b0b0b0;
-      --error: #ff6b6b;
       --shadow: 0 8px 30px rgba(0,0,0,0.4);
       --transition: all 0.3s ease;
     }
@@ -108,11 +107,6 @@
       font-weight: 500;
     }
     
-    form label::after {
-      content: " *";
-      color: var(--error);
-    }
-    
     form input,
     form select,
     form textarea {
@@ -127,25 +121,12 @@
       border: 1px solid transparent;
     }
     
-    form input:invalid,
-    form select:invalid,
-    form textarea:invalid {
-      border-color: var(--error);
-    }
-    
     form input:focus,
     form select:focus,
     form textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(112, 228, 255, 0.2);
-    }
-    
-    .error-message {
-      color: var(--error);
-      font-size: 0.8rem;
-      margin-top: 0.3rem;
-      display: none;
     }
     
     textarea {
@@ -245,41 +226,35 @@
     <h1>¡Estás Invitado al Cumple de Dieguis! 🎉</h1>
     <p>Será un día increíble lleno de diversión, comida y buenos momentos. ¡Me encantaría que estés ahí para celebrarlo conmigo!</p>
     
-    <form id="rsvpForm" novalidate>
+    <form id="rsvpForm">
       <div class="form-group">
-        <label for="nombre">Tu nombre completo</label>
-        <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required minlength="3">
-        <div class="error-message">Por favor ingresa tu nombre completo (mínimo 3 caracteres)</div>
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
       </div>
       
       <div class="form-group">
-        <label for="asistencia">Confirmación de asistencia</label>
-        <select id="asistencia" required>
+        <label for="asistencia">¿Vendrás a la fiesta?</label>
+        <select id="asistencia">
           <option value="">Selecciona una opción</option>
           <option value="Sí">¡Sí, claro que iré! 🎈</option>
           <option value="No">No podré asistir 😢</option>
         </select>
-        <div class="error-message">Por favor selecciona si asistirás o no</div>
       </div>
       
       <div class="form-group">
-        <label for="telefono">Número de WhatsApp</label>
-        <input type="tel" id="telefono" placeholder="Ej: 11 2345-6789" required pattern="[0-9]{10,15}">
-        <div class="error-message">Por favor ingresa un número válido (10-15 dígitos)</div>
+        <label for="telefono">WhatsApp</label>
+        <input type="tel" id="telefono" placeholder="Ej: 11 2345-6789">
       </div>
       
       <div class="form-group">
         <label for="mensaje">Mensaje para Dieguis</label>
-        <textarea id="mensaje" placeholder="Déjale un mensaje especial..." required minlength="10"></textarea>
-        <div class="error-message">Por favor escribe un mensaje (mínimo 10 caracteres)</div>
+        <textarea id="mensaje" placeholder="Déjale un mensaje especial..."></textarea>
       </div>
       
       <button type="submit" id="submitBtn">
-        Confirmar Asistencia
+        Enviar Confirmación
       </button>
     </form>
-    
-    <div class="movistar">* Todos los campos son obligatorios para confirmar tu asistencia</div>
   </div>
 
   <div class="modal" id="thankYouModal">
@@ -292,7 +267,7 @@
   </div>
 
   <script>
-    // Función para crear globos
+    // Función para crear globos animados
     function createBalloons() {
       const emojis = ['🎈','🎉','🥳','🎊','✨','🎁','🍰','🎂'];
       const container = document.getElementById('balloonContainer');
@@ -311,115 +286,8 @@
         }, 6000);
       }
     }
-    
-    // Validación de formulario
-    function setupFormValidation() {
-      const form = document.getElementById('rsvpForm');
-      const inputs = form.querySelectorAll('input, select, textarea');
-      
-      // Validación en tiempo real
-      inputs.forEach(input => {
-        input.addEventListener('input', () => {
-          validateField(input);
-        });
-        
-        input.addEventListener('blur', () => {
-          validateField(input);
-        });
-      });
-      
-      // Validación al enviar
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        let isValid = true;
-        inputs.forEach(input => {
-          if (!validateField(input)) {
-            isValid = false;
-          }
-        });
-        
-        if (isValid) {
-          submitForm();
-        }
-      });
-    }
-    
-    function validateField(input) {
-      const errorMessage = input.nextElementSibling;
-      
-      if (input.checkValidity()) {
-        input.style.borderColor = '';
-        errorMessage.style.display = 'none';
-        return true;
-      } else {
-        input.style.borderColor = 'var(--error)';
-        errorMessage.style.display = 'block';
-        return false;
-      }
-    }
-    
-    // Envío del formulario
-    function submitForm() {
-      const form = document.getElementById('rsvpForm');
-      const modal = document.getElementById('thankYouModal');
-      const submitBtn = document.getElementById('submitBtn');
-      
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando...';
-      
-      const formData = {
-        nombre: document.getElementById('nombre').value.trim(),
-        asistencia: document.getElementById('asistencia').value,
-        telefono: document.getElementById('telefono').value.trim(),
-        mensaje: document.getElementById('mensaje').value.trim()
-      };
-      
-      // Simulación de envío (reemplazar con tu endpoint real)
-      setTimeout(() => {
-        showResponse(formData);
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Confirmar Asistencia';
-        
-        // Aquí iría tu llamada real a fetch()
-        /*
-        fetch('TU_ENDPOINT_AQUI', {
-          method: 'POST',
-          body: JSON.stringify(formData)
-        })
-        .then(() => showResponse(formData))
-        .catch(error => {
-          console.error('Error:', error);
-          showResponse(formData, true);
-        })
-        .finally(() => {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Confirmar Asistencia';
-        });
-        */
-      }, 1000);
-    }
-    
-    function showResponse(data, isError = false) {
-      const modalTitle = document.getElementById('modalTitle');
-      const resumen = document.getElementById('resumen');
-      
-      if (isError) {
-        modalTitle.textContent = '⚠️ Error al enviar';
-        resumen.innerHTML = `Gracias <strong>${data.nombre}</strong>. Hubo un error pero recibimos tu respuesta.`;
-      } else if (data.asistencia === 'No') {
-        modalTitle.textContent = '😢 ¡Oh no!';
-        resumen.innerHTML = `Gracias <strong>${data.nombre}</strong> por avisar. ¡Te extrañaremos!`;
-      } else {
-        modalTitle.textContent = '🎉 ¡Confirmado!';
-        resumen.innerHTML = `¡Genial <strong>${data.nombre}</strong>! Nos vemos en la fiesta.`;
-        createConfetti();
-      }
-      
-      modal.classList.add('show');
-      form.reset();
-    }
-    
+
+    // Función para crear efecto de confeti
     function createConfetti() {
       const colors = ['#70e4ff', '#ff70a6', '#ff9770', '#ffd670', '#e9ff70'];
       const container = document.getElementById('confettiContainer');
@@ -449,19 +317,78 @@
       `;
       document.head.appendChild(style);
     }
-    
-    // Inicialización
-    document.addEventListener('DOMContentLoaded', function() {
-      createBalloons();
-      setInterval(createBalloons, 6000);
-      setupFormValidation();
+
+    // Función para manejar el envío del formulario
+    function handleFormSubmit(e) {
+      e.preventDefault();
       
-      document.getElementById('closeModal').addEventListener('click', () => {
+      const formData = {
+        nombre: document.getElementById('nombre').value.trim(),
+        asistencia: document.getElementById('asistencia').value,
+        telefono: document.getElementById('telefono').value.trim(),
+        mensaje: document.getElementById('mensaje').value.trim()
+      };
+      
+      const modalTitle = document.getElementById('modalTitle');
+      const resumen = document.getElementById('resumen');
+      
+      // Personalizar mensaje según la respuesta
+      if (formData.asistencia === 'No') {
+        modalTitle.textContent = '😢 ¡Oh no!';
+        resumen.textContent = formData.nombre 
+          ? `Gracias ${formData.nombre} por avisar. ¡Te extrañaremos!`
+          : 'Gracias por avisar que no podrás asistir. ¡Te extrañaremos!';
+      } else {
+        modalTitle.textContent = '🎉 ¡Confirmado!';
+        resumen.textContent = formData.nombre 
+          ? `¡Genial ${formData.nombre}! Nos vemos en la fiesta.`
+          : '¡Gracias por confirmar! Nos vemos en la fiesta.';
+        createConfetti();
+      }
+      
+      // Mostrar modal
+      document.getElementById('thankYouModal').classList.add('show');
+      
+      fetch('https://script.google.com/macros/s/AKfycbzNDzYx-6w-nL4LNku-_1gIvoE-aA2oxE5boFJsQ_61E06AhkSLQRqahS3_rHyWE6E0/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre,
+          asistencia,
+          telefono,
+          mensaje: mensajeInvitado
+        })
+      });
+    }
+
+    // Inicialización cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+      // Crear globos inmediatamente
+      createBalloons();
+      
+      // Crear nuevos globos cada 6 segundos
+      setInterval(createBalloons, 6000);
+      
+      // Manejar envío del formulario
+      document.getElementById('rsvpForm').addEventListener('submit', handleFormSubmit);
+      
+      // Cerrar modal al hacer clic en la X
+      document.getElementById('closeModal').addEventListener('click', function() {
         document.getElementById('thankYouModal').classList.remove('show');
+      });
+      
+      // Cerrar modal al hacer clic fuera del contenido
+      document.getElementById('thankYouModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('show');
+        }
       });
     });
 
-    // Iniciar globos inmediatamente
+    // Iniciar algunos globos inmediatamente (antes de que cargue el DOM)
     createBalloons();
   </script>
 </body>
